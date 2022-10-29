@@ -27,9 +27,17 @@ def get_driver():
     return driver
 
 
-@app.get("/")
-async def root():
+@app.get("/chromedriver")
+async def chromedriver():
+    print('ENTERED ENDPOINT /chromedriver')
     driver = get_driver()
     driver.get("https://www.selenium.dev/selenium/web/web-form.html")
 
     return {"title": driver.title}
+
+
+@app.get("/no_chromedriver")
+async def no_chromedriver():
+    print('ENTERED ENDPOINT /no_chromedriver')
+
+    return {"title": 'NO_CHROMEDRIVER'}
