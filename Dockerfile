@@ -1,12 +1,10 @@
-FROM public.ecr.aws/lambda/python:3.9 as build
+FROM public.ecr.aws/lambda/python:3.9
 
 RUN yum install -y unzip && \
     curl -Lo "/tmp/chromedriver.zip" "https://chromedriver.storage.googleapis.com/107.0.5304.62/chromedriver_linux64.zip" && \
     curl -Lo "/tmp/chrome-linux.zip" "https://www.googleapis.com/download/storage/v1/b/chromium-browser-snapshots/o/Linux_x64%2F1047731%2Fchrome-linux.zip?alt=media" && \
     unzip /tmp/chromedriver.zip -d /opt/ && \
     unzip /tmp/chrome-linux.zip -d /opt/
-
-FROM public.ecr.aws/lambda/python:3.9
 
 RUN yum install xz atk cups-libs gtk3 libXcomposite alsa-lib tar \
     libXcursor libXdamage libXext libXi libXrandr libXScrnSaver \
@@ -15,9 +13,6 @@ RUN yum install xz atk cups-libs gtk3 libXcomposite alsa-lib tar \
 
 COPY requirements.txt  .
 RUN  pip3 install -r requirements.txt
-
-COPY --from=build /opt/chrome-linux /opt/chrome
-COPY --from=build /opt/chromedriver /opt/
 
 COPY app.py ./
 CMD [ "app.handler" ]
