@@ -7,7 +7,7 @@ app = FastAPI()
 handler = Mangum(app)
 
 CHROMEDRIVER_PATH = '/opt/chromedriver'
-CHROME_BIN = '/opt/chrome-linux/chrome'
+CHROME_BIN = '/opt/google/chrome/chrome'
 
 
 def get_driver():
@@ -42,6 +42,7 @@ def get_driver():
 
 @app.get("/chromedriver")
 async def chromedriver():
+    print('locally tested - OK')
     print('ENTERED ENDPOINT /chromedriver')
     driver = get_driver()
     driver.get("https://www.selenium.dev/selenium/web/web-form.html")
